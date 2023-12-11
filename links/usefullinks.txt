@@ -1,0 +1,34 @@
+Useful links:
+
+Javascript, HTML, CSS:
+
+HTML:https://www.w3schools.com/html/default.asp
+CSS: https://www.w3schools.com/css/default.asp
+JS: https://www.w3schools.com/js/default.asp
+
+JS Challenger: https://www.jschallenger.com/overview/
+
+Modern Javascript Tutorial: https://javascript.info/
+
+Some modern Front End libraries:
+
+React - https://react.dev/
+Angular - https://angular.io/ (in the future https://angular.dev/)
+Vue - https://vuejs.org/
+Svelte - https://svelte.dev/
+
+Some modern Fullstack Frameworks:
+
+Remix - https://remix.run/
+NextJS - https://nextjs.org/
+Meteor - https://www.meteor.com/
+
+Full stack & web development:
+
+https://developer.mozilla.org/en-US/docs/Learn/Front-end_web_developer
+
+https://fullstackopen.com/
+
+IBM Fullstack Developer Certificate: https://www.coursera.org/professional-certificates/ibm-full-stack-cloud-developer
+
+
