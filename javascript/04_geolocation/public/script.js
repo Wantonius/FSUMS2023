@@ -22,7 +22,6 @@ function findMe() {
 	
 	if(!navigator.getlocation) {
 		status.textContent = "No geolocation in browser"
-		return;
 	} else {
 		status.textContent = "Locating ..."
 	}
