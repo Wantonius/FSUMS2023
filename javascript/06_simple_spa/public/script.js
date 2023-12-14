@@ -2,6 +2,7 @@ var mode = 0;
 
 window.onload = function() {
 	createForm();
+	getContactList();
 }
 
 createForm = () => {
