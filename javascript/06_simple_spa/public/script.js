@@ -84,3 +84,85 @@ createForm = () => {
 	//Append to root
 	root.appendChild(form);
 }
+
+//REST API
+
+addContact = async () => {
+	const firstname = document.getElementById("firstname");
+	const lastname = document.getElementById("lastname");
+	const email = document.getElementById("email");
+	const phone = document.getElementById("phone");
+	const contact = {
+		"firstname":firstname.value,
+		"lastname":lastname.value,
+		"email":email.value,
+		"phone":phone.value
+	}
+	let url = "/api/contact"
+	let request = {
+		method:"POST",
+		headers:{"Content-Type":"application/json"},
+		body:JSON.stringify(contact)
+	}
+	if(mode) {
+		url = "/api/contact/"+mode;
+		request = {
+			method:"PUT",
+			headers:{"Content-Type":"application/json"},
+			body:JSON.stringify(contact)
+		}
+	}
+	const response = await fetch(url,request);
+	if(response.ok) {
+		console.log("Add contact success");
+		getContactList();
+		const submitbutton = document.getElementById("submitbutton");
+		submitbutton.value= "Add";
+		mode = 0;
+		firstname.value="";
+		lastname.value="";
+		email.value="";
+		phone.value="";
+	} else {
+		console.log("Add contact failed. Server responded with a status "+response.status+" "+response.statusText)
+	}
+}
+
+getContactList = async () => {
+	const request = {
+		method:"GET"
+	}
+	const response = await fetch("/api/contact",request);
+	if(response.ok) {
+		const list = await response.json();
+		//populateTable(list)
+	} else {
+		console.log("Get contacts failed. Server responded with a status "+response.status+" "+response.statusText)
+	}
+}
+
+removeContact = async (id) => {
+	const request = {
+		method:"DELETE"
+	}
+	const response = await fetch("/api/contact/"+id,request);
+	if(response.ok) {
+		getContactList();
+	} else {
+		console.log("Remove contact failed. Server responded with a status "+response.status+" "+response.statusText)
+	}
+}
+
+editContact = (contact) => {
+	const firstname = document.getElementById("firstname");
+	const lastname = document.getElementById("lastname");
+	const email = document.getElementById("email");
+	const phone = document.getElementById("phone");
+	firstname.value = contact.firstname;
+	lastname.value = contact.lastname;
+	email.value = contact.email;
+	phone.value = contact.phone;
+	const submitbutton = document.getElementById("submitbutton");
+	submitbutton.value = "Save";
+	mode = contact.id
+}
