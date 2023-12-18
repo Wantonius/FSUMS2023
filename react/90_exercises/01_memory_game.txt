@@ -14,3 +14,5 @@ Note: Your state will need to remember the color of the first clicked button and
 https://www.tutorialspoint.com/what-is-fisher-yates-shuffle-in-javascript
 
 Add a reset button.
+
+Note 2: Remember. You can use the name or id attribute of the buttons to transfer information into the actual function that handles the game under event.target.name or event.target.id in the onClick-function.
