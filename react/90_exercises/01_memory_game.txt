@@ -1,0 +1,16 @@
+Memory game with React
+
+Let's create a simple memory game. We will create 16 (4x4 grid) of identical buttons. Buttons change background color when they are clicked. There will be 8 pairs of same colored buttons. If user clicks two buttons with same color in a row those buttons will disable and stay with their color. Otherwise the buttons will turn gray and user has used one of his tries. User has 5 tries. If he manages to turn all buttons to their colors user wins.
+
+Button info is an object (You can create your own object type obviously) 
+{
+	id:a number for the key of the map function,
+	color:the background color
+}
+
+These will in a 16-long array which is used to create the buttons using javascript map()-function as in the lists example. 
+
+Note: Your state will need to remember the color of the first clicked button and become "" when two buttons have been clicked. The list of buttoninfos can be shuffled for example using Fisher-Yates shuffle when the game starts (useEffect with [] dependency). 
+https://www.tutorialspoint.com/what-is-fisher-yates-shuffle-in-javascript
+
+Add a reset button.
