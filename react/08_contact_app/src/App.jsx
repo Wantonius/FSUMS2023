@@ -1,5 +1,8 @@
 import {useState,useEffect} from 'react'
 import ContactForm from './components/ContactForm';
+import ContactList from './components/ContactList';
+import Navbar from './components/Navbar';
+import {Routes,Route,Navigate} from 'react-router-dom';
 
 
 function App() {
@@ -114,7 +117,13 @@ function App() {
 
 	return (
 		<>
-			<ContactForm addContact={addContact}/>
+			<Navbar/>
+			<hr/>
+			<Routes>
+				<Route path="/" element={<ContactList list={state.list} removeContact={removeContact} editContact={editContact}/>}/>
+				<Route path="/form" element={<ContactForm addContact={addContact}/>}/>
+				<Route path="*" element={<Navigate to="/"/>}/>
+			</Routes>
 		</>
 	)
 }

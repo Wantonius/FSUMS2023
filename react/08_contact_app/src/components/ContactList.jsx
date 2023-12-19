@@ -30,7 +30,7 @@ const ContactList = (props) => {
 			})
 		}
 	}
-	
+		
 	const removeContact = (id) => {
 		props.removeContact(id);
 		changeMode("cancel",0);
@@ -40,4 +40,34 @@ const ContactList = (props) => {
 		props.editContact(contact);
 		changeMode("cancel",0);
 	}
+
+	let contacts = props.list.map((contact,index) => {
+		if(index === state.removeIndex) {
+			return (<RemoveRow key={contact.id} contact={contact} index={index} changeMode={changeMode} removeContact={removeContact}/>)
+		}
+		if(index === state.editIndex) {
+			return (<EditRow key={contact.id} contact={contact} index={index} changeMode={changeMode} editContact={editContact}/>)
+		}
+		return (<Row key={contact.id} contact={contact} index={index} changeMode={changeMode}/>)
+	})
+	
+	return(
+		<table className="table table-striped">
+			<thead>
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Remove</th>
+					<th>Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+			{contacts}
+			</tbody>
+		</table>
+	)
 }
+
+export default ContactList;
