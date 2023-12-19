@@ -1,4 +1,5 @@
 import {useState,useEffect} from 'react'
+import ContactForm from './components/ContactForm';
 
 
 function App() {
@@ -15,7 +16,51 @@ function App() {
 
 	//USEEFFECT
 	
-	useEffect(() => {},[urlRequest])
+	useEffect(() => {
+		getList();
+	},[]);
+	
+	useEffect(() => {
+		
+		if(urlRequest.url == "") {
+			return;
+		}
+		
+		const fetchData = async () => {
+			
+			const response = await fetch(urlRequest.url,urlRequest.request);
+			if(!response) {
+				console.log("Server gave no response.");
+				return;
+			}
+			if(response.ok) {
+				switch(urlRequest.action) {
+					case "getlist":
+						const list = await response.json();
+						if(!list) {
+							console.log("Failed to parse contact information");
+							return;
+						}
+						setState({
+							list:list
+						})
+						return;
+					case "add":
+					case "remove":
+					case "edit":
+						getList();
+						return;
+					default:
+						return;
+				}
+			} else {
+				console.log("Server responded with a status "+response.status+" "+response.statusText);
+			}
+		}
+		
+		fetchData();
+		
+	},[urlRequest])
 
 	//HELPER FUNCTIONS
 	
@@ -69,7 +114,7 @@ function App() {
 
 	return (
 		<>
-
+			<ContactForm addContact={addContact}/>
 		</>
 	)
 }
