@@ -20,7 +20,39 @@ const useAction = () => {
 	
 	//useEffect FETCH
 	
-	useEffect(() => {},[urlRequest]);
+	useEffect(() => {
+		
+		const fetchData = async () => {
+			const response = await fetch(urlRequest.request);
+			if(!response) {
+				console.log("Server sent no response!");
+				return;
+			}
+			if(response.ok) {
+				switch(urlRequest.action) {
+					case "getlist":
+						let temp = await response.json();
+						let list:ShoppingItem[] = temp as ShoppingItem[];
+						setState({
+							list:list
+						})
+						return;
+					case "add":
+					case "remove":
+					case "edit":
+						getList();
+						return;
+					default:
+						return;
+				}
+			} else {
+				console.log("Server responded with a status "+response.status+" "+response.statusText);
+			}
+		}
+		
+		fetchData();
+		
+	},[urlRequest]);
 	
 	//SHOPPING API FUNCTIONS
 	
@@ -33,7 +65,42 @@ const useAction = () => {
 		})
 	}
 	
+	const add = (item:ShoppingItem) => {
+		setUrlRequest({
+			request:new Request("/api/shopping",{
+				method:"POST",
+				headers:{
+					"Content-Type":"application/json"
+				},
+				body:JSON.stringify(item)
+			}),
+			action:"add"
+		})
+	}
 	
+	const remove = (id:string) => {
+		setUrlRequest({
+			request:new Request("/api/shopping/"+id,{
+				method:"DELETE"
+			}),
+			action:"remove"
+		})
+	}
+	
+	const edit = (item:ShoppingItem) => {
+		setUrlRequest({
+			request:new Request("/api/shopping/"+item._id,{
+				method:"PUT",
+				headers:{
+					"Content-Type":"application/json"
+				},
+				body:JSON.stringify(item)
+			}),
+			action:"edit"
+		})
+	}
+	
+	return {state,getList,add,remove,edit}
 }
 
 export default useAction;
