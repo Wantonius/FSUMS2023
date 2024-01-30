@@ -138,6 +138,17 @@ app.post("/login",function(req,res) {
 })
 })
 
+app.post("/logout",function(req,res) {
+	if(!req.headers.token) {
+		return res.status(404).json({"Message":"Not found"})
+	}
+	sessionModel.deleteOne({"token":req.headers.token}).then(function(){
+		return res.status(200).json({"Message":"Logged out"})
+	}).catch(function(err) {
+		console.log(err);
+		return res.status(500).json({"Message":"Internal server error"})
+	})
+})
 
 let port = process.env.PORT || 3000;
 
