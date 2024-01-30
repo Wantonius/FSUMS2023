@@ -101,7 +101,8 @@ app.post("/login",function(req,res) {
 		})
 	}).catch(function(err) {
 		console.log(err);
-		return res.status(500).json({"Message":"Internal server error"}))
+		return res.status(500).json({"Message":"Internal server error"})
+})
 })
 
 
