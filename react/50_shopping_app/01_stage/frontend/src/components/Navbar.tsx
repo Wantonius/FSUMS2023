@@ -5,7 +5,7 @@ const Navbar = () => {
 	return(
 		<nav className="navbar navbar-expand-lg navbar-light bg-light">
 			<p className="navbar-brand" style={{marginLeft:10}}>Shopping App</p>
-			<ul className="navbar-nav>
+			<ul className="navbar-nav">
 				<li className="nav-item" style={{marginLeft:10}}>
 					<Link to="/" className="nav-link">Shopping List</Link>
 				</li>
