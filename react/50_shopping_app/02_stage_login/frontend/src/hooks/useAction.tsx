@@ -78,30 +78,116 @@ const useAction = () => {
 	useEffect(() => {
 		
 		const fetchData = async () => {
+			setLoading(true);
 			const response = await fetch(urlRequest.request);
+			setLoading(false);
 			if(!response) {
-				console.log("Server sent no response!");
+				setError("Server never responded. Try again later!");
 				return;
 			}
 			if(response.ok) {
 				switch(urlRequest.action) {
 					case "getlist":
 						let temp = await response.json();
+						if(!temp) {
+							setError("Failed to parse shopping information. Try again later.");
+							return;
+						}
 						let list:ShoppingItem[] = temp as ShoppingItem[];
-						setState({
-							list:list
+						setState((state) => {
+							let tempState = {
+								...state,
+								list:list
+							}
+							saveToStorage(tempState);
+							return tempState;
 						})
 						return;
 					case "add":
 					case "remove":
 					case "edit":
-						getList();
+						getList(state.token);
+						return;
+					case "register":
+						setError("Register Success");
+						return;
+					case "login":
+						let temp2 = await response.json();
+						if(!temp2) {
+							setError("Failed to parse login information. Try again later");
+							return;
+						}
+						let data = temp2 as Token;
+						setState((state) => {
+							let tempState = {
+								...state,
+								isLogged:true,
+								token:data.token
+							}
+							saveToStorage(tempState);
+							return tempState;
+						})
+						getList(data.token);
+						return;
+					case "logout":
+						let tempState = {
+							list:[],
+							isLogged:false,
+							loading:false,
+							error:"",
+							token:"",
+							user:""
+						}
+						saveToStorage(tempState);
+						setState(tempState);
 						return;
 					default:
 						return;
 				}
 			} else {
-				console.log("Server responded with a status "+response.status+" "+response.statusText);
+				if(response.status === 403) {
+					let tempState = {
+						list:[],
+						isLogged:false,
+						loading:false,
+						token:"",
+						error:"Your session has expired. Logging you out.",
+						user:""
+					}
+					saveToStorage(tempState);
+					setState(tempState);
+					return;
+				}
+				let errorMessage = "Action failed. Server responded with a status "+response.status+" "+response.statusText;
+				switch(urlRequest.action) {
+					case "register":
+						if(response.status === 409) {
+							errorMessage = "Username is already in use"
+						}
+						setError(errorMessage);
+						return;
+					case "login":
+					case "getlist":
+					case "add":
+					case "remove":
+					case "edit":
+						setError(errorMessage);
+						return;
+					case "logout":
+						let tempState = {
+							list:[],
+							isLogged:false,
+							loading:false,
+							token:"",
+							error:"Server responded with an error. Logging you out.",
+							user:""
+						}
+						saveToStorage(tempState);
+						setState(tempState);
+						return;
+					default:
+						return;
+				}
 			}
 		}
 		
