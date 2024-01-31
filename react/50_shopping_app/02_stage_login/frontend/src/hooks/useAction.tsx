@@ -8,6 +8,10 @@ interface UrlRequest {
 	action:string;
 }
 
+interface Token {
+	token:string;
+}
+
 const useAction = () => {
 	
 	const [state,setState] = useState<AppState>({
@@ -107,10 +111,13 @@ const useAction = () => {
 	
 	//SHOPPING API FUNCTIONS
 	
-	const getList = () => {
+	const getList = (token:string) => {
 		setUrlRequest({
 			request:new Request("/api/shopping",{
-				method:"GET"
+				method:"GET",
+				headers:{
+					"token":token
+				}
 			}),
 			action:"getlist"
 		})
@@ -121,7 +128,8 @@ const useAction = () => {
 			request:new Request("/api/shopping",{
 				method:"POST",
 				headers:{
-					"Content-Type":"application/json"
+					"Content-Type":"application/json",
+					"token":state.token
 				},
 				body:JSON.stringify(item)
 			}),
@@ -132,7 +140,10 @@ const useAction = () => {
 	const remove = (id:string) => {
 		setUrlRequest({
 			request:new Request("/api/shopping/"+id,{
-				method:"DELETE"
+				method:"DELETE",
+				headers:{
+					"token":state.token
+				}
 			}),
 			action:"remove"
 		})
@@ -143,7 +154,8 @@ const useAction = () => {
 			request:new Request("/api/shopping/"+item._id,{
 				method:"PUT",
 				headers:{
-					"Content-Type":"application/json"
+					"Content-Type":"application/json",
+					"token":state.token
 				},
 				body:JSON.stringify(item)
 			}),
@@ -151,7 +163,47 @@ const useAction = () => {
 		})
 	}
 	
-	return {state,getList,add,remove,edit}
+	//LOGIN API
+	
+	const register = (user:User) => {
+		setUrlRequest({
+			request:new Request("/register",{
+				method:"POST",
+				headers:{
+					"Content-Type":"application/json"
+				},
+				body:JSON.stringify(user);
+			}),
+			action:"register"
+		})
+	}
+
+	const login = (user:User) => {
+		setUrlRequest({
+			request:new Request("/login",{
+				method:"POST",
+				headers:{
+					"Content-Type":"application/json"
+				},
+				body:JSON.stringify(user);
+			}),
+			action:"login"
+		})
+	}
+	
+	const logout = () => {
+		setUrlRequest({
+			request:new Request("/logout",{
+				method:"POST",
+				headers:{
+					"token":state.token
+				}
+			}),
+			action:"logout"
+		})
+	}
+	
+	return {state,getList,add,remove,edit,setError,login,register,logout}
 }
 
 export default useAction;
