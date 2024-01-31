@@ -31,6 +31,7 @@ function App() {
 			</>
 		)
 	} else {
+		return(
 			<>
 				<Navbar isLogged={action.state.isLogged} logout={action.logout} user={action.state.user}/>
 					{messageArea}
@@ -38,7 +39,8 @@ function App() {
 					<Route path="/" element={<LoginPage register={action.register} login={action.login} setError={action.setError}/>}/>
 					<Route path="*" element={<Navigate to="/"/>}/>
 				</Routes>
-			</>		
+			</>
+		)
 	}
 }
 
