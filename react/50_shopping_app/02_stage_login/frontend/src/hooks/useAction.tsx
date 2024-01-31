@@ -1,5 +1,6 @@
 import {useState,useEffect} from 'react';
 import ShoppingItem from '../models/ShoppingItem';
+import User from '../models/User';
 import {AppState} from '../types/states';
 
 interface UrlRequest {
@@ -10,7 +11,12 @@ interface UrlRequest {
 const useAction = () => {
 	
 	const [state,setState] = useState<AppState>({
-		list:[]
+		list:[],
+		isLogged:false,
+		loading:false,
+		error:"",
+		token:"",
+		user:""
 	})
 	
 	const [urlRequest, setUrlRequest] = useState<UrlRequest>({
@@ -18,6 +24,51 @@ const useAction = () => {
 		action:""
 	})
 	
+	//HELPER FUNCTIONS
+	
+	const saveToStorage = (state:AppState) => {
+		sessionStorage.setItem("state",JSON.stringify(state));
+	}
+	
+	useEffect(() => {
+		let temp = sessionStorage.getItem("state");
+		if(temp) {
+			let state:AppState = JSON.parse(temp);
+			setState(state);
+		}
+	},[])
+	
+	const setLoading = (loading:boolean) => {
+		setState((state) => {
+			return {
+				...state,
+				loading:loading,
+				error:""
+			}
+		})
+	}
+	
+	const setError = (error:string) => {
+		setState((state) =>	{
+			let tempState = {
+				...state,
+				error:error
+			}
+			saveToStorage(tempState);
+			return tempState;
+		})
+	}
+	
+	const setUser = (user:string) => {
+		setState((state) => {
+			let tempState = {
+				...state,
+				user:user
+			}
+			saveToStorage(tempState);
+			return tempState;
+		})
+	}
 	//useEffect FETCH
 	
 	useEffect(() => {
