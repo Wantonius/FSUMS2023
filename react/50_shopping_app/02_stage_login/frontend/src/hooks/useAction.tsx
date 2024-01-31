@@ -197,9 +197,13 @@ const useAction = () => {
 	
 	//SHOPPING API FUNCTIONS
 	
-	const getList = (token:string) => {
+	const getList = (token:string,search?:string) => {
+		let url = "/api/shopping";
+		if(search) {
+			url = url +"?type="+search
+		}
 		setUrlRequest({
-			request:new Request("/api/shopping",{
+			request:new Request(url,{
 				method:"GET",
 				headers:{
 					"token":token

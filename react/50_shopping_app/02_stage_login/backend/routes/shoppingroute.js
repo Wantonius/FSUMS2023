@@ -4,7 +4,11 @@ const itemModel = require("../models/item");
 const router = express.Router();
 
 router.get("/shopping",function(req,res) {
-	itemModel.find({"user":req.session.user}).then(function(items) {
+	let query = {"user":req.session.user}
+	if(req.query.type) {
+		query["type"] = req.query.type
+	}
+	itemModel.find(query).then(function(items) {
 		return res.status(200).json(items);
 	}).catch(function(err) {
 		console.log(err);
