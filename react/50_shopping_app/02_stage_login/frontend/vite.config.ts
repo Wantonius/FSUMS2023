@@ -10,28 +10,22 @@ export default defineConfig({
 			  "target":"http://localhost:3000",
 			  "changeOrigin":true,
 			  "secure":false
-		  }
-	  },
-	  proxy:{
+		  },
 		  "/register":{
 			  "target":"http://localhost:3000",
 			  "changeOrigin":true,
 			  "secure":false
-		  }
-	  },
-	  proxy:{
+		  },
 		  "/login":{
 			  "target":"http://localhost:3000",
 			  "changeOrigin":true,
 			  "secure":false
-		  }
-	  },
-	  proxy:{
+		  },
 		  "/logout":{
 			  "target":"http://localhost:3000",
 			  "changeOrigin":true,
 			  "secure":false
-		  }
+		  },
 	  }
   }
 })
