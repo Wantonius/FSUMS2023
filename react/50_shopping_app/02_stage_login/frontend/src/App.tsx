@@ -11,12 +11,12 @@ function App() {
 
 	const action = useAction();
 	
-	let messageArea = <h4 style={{height:40}}></h4>
+	let messageArea = <h4 style={{height:40, margin:"auto",textAlign:"center"}}></h4>
 	if(action.state.loading) {
-		<h4 style={{height:40}}>Loading ...</h4>
+		messageArea = <h4 style={{height:40, margin:"auto",textAlign:"center"}}>Loading ...</h4>
 	}
 	if(action.state.error) {
-		<h4 style={{height:40}}>{action.state.error}</h4>
+		messageArea = <h4 style={{height:40, margin:"auto",textAlign:"center"}}>{action.state.error}</h4>
 	}
 	if(action.state.isLogged) {
 		return (
