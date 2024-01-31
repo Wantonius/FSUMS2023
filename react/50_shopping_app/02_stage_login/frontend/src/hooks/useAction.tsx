@@ -258,7 +258,7 @@ const useAction = () => {
 				headers:{
 					"Content-Type":"application/json"
 				},
-				body:JSON.stringify(user);
+				body:JSON.stringify(user)
 			}),
 			action:"register"
 		})
@@ -271,7 +271,7 @@ const useAction = () => {
 				headers:{
 					"Content-Type":"application/json"
 				},
-				body:JSON.stringify(user);
+				body:JSON.stringify(user)
 			}),
 			action:"login"
 		})
