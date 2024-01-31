@@ -265,6 +265,7 @@ const useAction = () => {
 	}
 
 	const login = (user:User) => {
+		setUser(user.username);
 		setUrlRequest({
 			request:new Request("/login",{
 				method:"POST",

@@ -20,7 +20,7 @@ const Navbar = (props:Props) => {
 						<Link to="/form" className="nav-link">Add new item</Link>
 					</li>
 					<li className="nav-item" style={{marginLeft:10}}>
-						<p style={{"backgroundColor":"blue"}} className="nav-link">Logged in as {props.user}</p>
+						<p style={{"color":"blue"}} className="nav-link">Logged in as {props.user}</p>
 					</li>
 					<li className="nav-item" style={{marginLeft:10}}>
 						<Link to="/" onClick={props.logout} className="nav-link">Logout</Link>
