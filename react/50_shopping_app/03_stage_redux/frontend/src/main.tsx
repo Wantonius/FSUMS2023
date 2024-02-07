@@ -5,11 +5,11 @@ import {BrowserRouter} from 'react-router-dom';
 import {Store,applyMiddleware,combineReducers,createStore} from 'redux';
 import loginReducer from './reducers/loginReducer';
 import shoppingReducer from './reducers/shoppingReducer';
-import {AppState,ShoppingAction} from './types/states';
+import {AppState,ShoppingAction,RootReducer} from './types/states';
 import {Provider} from 'react-redux';
 import {thunk} from 'redux-thunk'
 
-const rootReducer = combineReducers<AppState>({
+const rootReducer = combineReducers<RootReducer>({
 	login:loginReducer,
 	shopping:shoppingReducer
 })
