@@ -30,6 +30,8 @@ const loginReducer:Reducer<LoginState,ShoppingAction> = (state = initialState,ac
 		...state
 	}
 	let error = "";
+	let token = "";
+	let user = "";
 	switch(action.type) {
 		case actionConstants.LOADING:
 			return {
@@ -50,7 +52,7 @@ const loginReducer:Reducer<LoginState,ShoppingAction> = (state = initialState,ac
 			saveToStorage(tempState);
 			return tempState;
 		case actionConstants.LOGIN_SUCCESS:
-			let token = "";
+
 			if(action.payload) {
 				token = action.payload as string;
 			}
@@ -96,7 +98,6 @@ const loginReducer:Reducer<LoginState,ShoppingAction> = (state = initialState,ac
 			saveToStorage(tempState);
 			return tempState;
 		case actionConstants.SET_USER:
-			let user = "";
 			if(action.payload) {
 				user = action.payload as string;
 			}

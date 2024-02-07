@@ -27,6 +27,7 @@ const shoppingReducer:Reducer<ShoppingState,ShoppingAction> = (state = initialSt
 		...state
 	}
 	let error = "";
+	let list:ShoppingItem[] = [];
 	switch(action.type) {
 		case actionConstants.LOADING:
 			tempState = {
@@ -36,7 +37,6 @@ const shoppingReducer:Reducer<ShoppingState,ShoppingAction> = (state = initialSt
 			saveToStorage(tempState);
 			return tempState;
 		case actionConstants.FETCH_LIST_SUCCESS:
-			let list:ShoppingItem[] = [];
 			if(action.payload) {
 				list = action.payload as ShoppingItem[]
 			}
