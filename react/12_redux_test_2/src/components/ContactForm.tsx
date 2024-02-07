@@ -34,7 +34,7 @@ const ContactForm = () => {
 		let contact = new Contact(state.firstname,state.lastname,state.email,state.phone,0);
 		dispatch({
 			type:"ADD_CONTACT",
-			contact:contact
+			payload:contact
 		});
 		setState({
 			firstname:"",
