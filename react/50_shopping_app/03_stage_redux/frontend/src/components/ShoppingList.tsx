@@ -79,7 +79,7 @@ const ShoppingList = () => {
 	}
 	
 	const editItem = (item:ShoppingItem) => {
-		appState(edit(appState.token,item));
+		dispatch(edit(appState.token,item));
 		changeMode(0,"cancel");
 	}
 	

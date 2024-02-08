@@ -24,7 +24,7 @@ const ShoppingForm = () => {
 	const tokenSelector = (state) => state.login.token
 	const token = useSelector(tokenSelector);
 	
-	const dispatch:ThunkDispatch<AppState,null,ShoppingAction> => useDispatch();
+	const dispatch:ThunkDispatch<AppState,null,ShoppingAction> = useDispatch();
 	
 	const onChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setState((state) => {
