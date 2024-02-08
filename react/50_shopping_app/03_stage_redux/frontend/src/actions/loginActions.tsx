@@ -38,7 +38,7 @@ export const logout = (token:string) => {
 	return (dispatch:ThunkDispatch<AppState,null,ShoppingAction>) => {
 		let request = new Request("/logout",{
 			method:"POST",
-			headers:{"Content-Type":"application/json"
+			headers:{"Content-Type":"application/json",
 						"token":token}
 		})
 		handleLogin(request,"logout",dispatch);

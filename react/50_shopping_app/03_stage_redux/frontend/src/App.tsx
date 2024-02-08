@@ -26,16 +26,16 @@ function App() {
 	const state = useSelector(selector);
 	
 	let messageArea = <h4 style={{height:40, margin:"auto",textAlign:"center"}}></h4>
-	if(action.state.loading) {
+	if(state.loading) {
 		messageArea = <h4 style={{height:40, margin:"auto",textAlign:"center"}}>Loading ...</h4>
 	}
-	if(action.state.error) {
-		messageArea = <h4 style={{height:40, margin:"auto",textAlign:"center"}}>{action.state.error}</h4>
+	if(state.error) {
+		messageArea = <h4 style={{height:40, margin:"auto",textAlign:"center"}}>{state.error}</h4>
 	}
-	if(action.state.isLogged) {
+	if(state.isLogged) {
 		return (
 			<>
-				<Navbar isLogged={action.state.isLogged} logout={action.logout} user={action.state.user}/>
+				<Navbar/>
 					{messageArea}
 				<Routes>
 					<Route path="/" element={<ShoppingList list={action.state.list} remove={action.remove} edit={action.edit} getList={action.getList} token={action.state.token}/>}/>
@@ -47,7 +47,7 @@ function App() {
 	} else {
 		return(
 			<>
-				<Navbar isLogged={action.state.isLogged} logout={action.logout} user={action.state.user}/>
+				<Navbar/>
 					{messageArea}
 				<Routes>
 					<Route path="/" element={<LoginPage register={action.register} login={action.login} setError={action.setError}/>}/>
