@@ -31,7 +31,7 @@ const EditRow = (props:Props) => {
 	}
 	
 	const editItem = () => {
-		let item = new ShoppingItem(state.type,state.count,state.price,props.item._id);
+		let item = new ShoppingItem(state.type,state.count,state.price,props.item.id);
 		props.editItem(item);
 	}
 	
