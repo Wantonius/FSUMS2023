@@ -15,7 +15,8 @@ function App() {
 		return word.length;
 	}
 	
-	let wordLength = computeWordLength(word);
+	//let wordLength = computeWordLength(word);
+	let wordLength = useMemo(() => computeWordLength(word),[word])
 
 
 	return (
