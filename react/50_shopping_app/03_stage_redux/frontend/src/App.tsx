@@ -1,5 +1,4 @@
 import {useEffect} from 'react';
-import useAction from './hooks/useAction';
 import ShoppingForm from './components/ShoppingForm';
 import ShoppingList from './components/ShoppingList';
 import Navbar from './components/Navbar';
@@ -10,7 +9,6 @@ import {useSelector} from 'react-redux';
 
 function App() {
 
-	const action = useAction();
 	
 	const selector = (state) => {
 		let error = state.shopping.error;
@@ -38,8 +36,8 @@ function App() {
 				<Navbar/>
 					{messageArea}
 				<Routes>
-					<Route path="/" element={<ShoppingList list={action.state.list} remove={action.remove} edit={action.edit} getList={action.getList} token={action.state.token}/>}/>
-					<Route path="/form" element={<ShoppingForm add={action.add}/>}/>
+					<Route path="/" element={<ShoppingList />}/>
+					<Route path="/form" element={<ShoppingForm />}/>
 					<Route path="*" element={<Navigate to="/"/>}/>
 				</Routes>
 			</>
@@ -50,7 +48,7 @@ function App() {
 				<Navbar/>
 					{messageArea}
 				<Routes>
-					<Route path="/" element={<LoginPage register={action.register} login={action.login} setError={action.setError}/>}/>
+					<Route path="/" element={<LoginPage />}/>
 					<Route path="*" element={<Navigate to="/"/>}/>
 				</Routes>
 			</>

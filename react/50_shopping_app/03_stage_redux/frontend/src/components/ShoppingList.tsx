@@ -3,14 +3,10 @@ import Row from './Row';
 import RemoveRow from './RemoveRow';
 import EditRow from './EditRow';
 import React,{useState} from 'react';
-
-interface Props {
-	list:ShoppingItem[];
-	remove(id:string):void;
-	edit(item:ShoppingItem):void;
-	getList(token:string,search?:string):void;
-	token:string;
-}
+import {AppState,ShoppingAction} from '../types/states';
+import {getList,remove,edit} from '../actions/shoppingActions';
+import {useDispatch,useSelector} from 'react-redux';
+import {ThunkDispatch} from 'redux-thunk';
 
 interface State {
 	removeIndex:number;
@@ -21,7 +17,7 @@ interface SearchState {
 	search:string;
 }
 
-const ShoppingList = (props:Props) => {
+const ShoppingList = () => {
 	
 	const [state,setState] = useState<State>({
 		removeIndex:-1,
@@ -31,6 +27,17 @@ const ShoppingList = (props:Props) => {
 	const [searchState,setSearchState] = useState<SearchState>({
 		search:""
 	})
+	
+	const appStateSelector = (state) => {
+		return {
+			token:state.login.token,
+			list:state.shopping.list
+		}
+	}
+	
+	const appState = useSelector(appStateSelector);
+	
+	const dispatch:ThunkDispatch<AppState,null,ShoppingAction> = useDispatch();
 	
 	const changeMode = (index:number,mode:string) => {
 		if(mode === "remove") {
@@ -54,7 +61,7 @@ const ShoppingList = (props:Props) => {
 	}
 	
 	const searchByType = () => {
-		props.getList(props.token,searchState.search);	
+		dispatch(getList(appState.token,searchState.search));	
 		setSearchState({
 			search:""
 		})
@@ -67,16 +74,16 @@ const ShoppingList = (props:Props) => {
 	}
 	
 	const removeItem = (id:string) => {
-		props.remove(id);
+		dispatch(remove(appState.token,id));
 		changeMode(0,"cancel");
 	}
 	
 	const editItem = (item:ShoppingItem) => {
-		props.edit(item);
+		appState(edit(appState.token,item));
 		changeMode(0,"cancel");
 	}
 	
-	const shoppingItem = props.list.map((item,index) => {
+	const shoppingItem = appState.list.map((item,index) => {
 		if(index === state.removeIndex) {
 			return (
 				<RemoveRow key={item._id} item={item} removeItem={removeItem} changeMode={changeMode}/>
