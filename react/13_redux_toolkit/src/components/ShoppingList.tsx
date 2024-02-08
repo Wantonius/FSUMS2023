@@ -3,24 +3,26 @@ import Row from './Row';
 import RemoveRow from './RemoveRow';
 import EditRow from './EditRow';
 import {useState} from 'react';
+import {useDispatch,useSelector} from 'react-redux';
+import {PayloadAction,ThunkDispatch} from '@reduxjs/toolkit';
+import {remove,edit,AppState} from '../store/shoppingSlice';
 
-interface Props {
-	list:ShoppingItem[];
-	remove(id:string):void;
-	edit(item:ShoppingItem):void;
-}
 
 interface State {
 	removeIndex:number;
 	editIndex:number;
 }
 
-const ShoppingList = (props:Props) => {
+const ShoppingList = () => {
 	
 	const [state,setState] = useState<State>({
 		removeIndex:-1,
 		editIndex:-1
 	})
+	
+	const listSelector = (state) => state.list;
+	const list = useSelector(listSelector);
+	const dispatch:ThunkDispatch<AppState,null,PayloadAction> = useDispatch();
 	
 	const changeMode = (index:number,mode:string) => {
 		if(mode === "remove") {
@@ -43,17 +45,17 @@ const ShoppingList = (props:Props) => {
 		}
 	}
 	
-	const removeItem = (id:string) => {
-		props.remove(id);
+	const removeItem = (id:number) => {
+		dispatch(remove(id));
 		changeMode(0,"cancel");
 	}
 	
 	const editItem = (item:ShoppingItem) => {
-		props.edit(item);
+		dispatch(edit(item));
 		changeMode(0,"cancel");
 	}
 	
-	const shoppingItem = props.list.map((item,index) => {
+	const shoppingItem = list.map((item,index) => {
 		if(index === state.removeIndex) {
 			return (
 				<RemoveRow key={item.id} item={item} removeItem={removeItem} changeMode={changeMode}/>

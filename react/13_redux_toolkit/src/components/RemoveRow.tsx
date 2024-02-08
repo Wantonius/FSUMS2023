@@ -2,7 +2,7 @@ import ShoppingItem from '../models/ShoppingItem';
 
 interface Props {
 	item:ShoppingItem;
-	removeItem(id:string):void;
+	removeItem(id:number):void;
 	changeMode(index:number,mode:string):void;
 }
 
