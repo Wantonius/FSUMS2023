@@ -70,13 +70,13 @@ const shoppingSlice = createSlice({
 		})
 		builder.addCase(add.fulfilled, (state,action) => {
 			console.log(action)
-		}
+		})
 		builder.addCase(remove.fulfilled, (state,action) => {
 			console.log(action)
-		}
+		})
 		builder.addCase(edit.fulfilled, (state,action) => {
 			console.log(action)
-		}
+		})
 	}
 })
 
