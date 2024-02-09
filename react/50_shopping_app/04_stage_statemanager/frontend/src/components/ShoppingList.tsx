@@ -23,7 +23,7 @@ const ShoppingList = () => {
 		editIndex:-1
 	})
 	
-	const {list} = useAppState();
+	const {list,token} = useAppState();
 	const {remove,edit,getList} = useAction();
 	
 	const [searchState,setSearchState] = useState<SearchState>({
@@ -52,7 +52,7 @@ const ShoppingList = () => {
 	}
 	
 	const searchByType = () => {
-		getList(props.token,searchState.search);	
+		getList(token,searchState.search);	
 		setSearchState({
 			search:""
 		})
