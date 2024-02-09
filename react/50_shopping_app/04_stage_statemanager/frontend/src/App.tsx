@@ -1,5 +1,6 @@
 import {useEffect} from 'react';
 import useAction from './hooks/useAction';
+import useAppState from './hooks/useAppState';
 import ShoppingForm from './components/ShoppingForm';
 import ShoppingList from './components/ShoppingList';
 import Navbar from './components/Navbar';
@@ -9,23 +10,31 @@ import {Routes,Route,Navigate} from 'react-router-dom';
 
 function App() {
 
-	const action = useAction();
+	const {getList} = useAction();
+	
+	const {loading,error,isLogged,token} = useAppState();
+	
+	useEffect(() => {
+		if(isLogged) {
+			getList(token)
+		}
+	},[isLogged])
 	
 	let messageArea = <h4 style={{height:40, margin:"auto",textAlign:"center"}}></h4>
-	if(action.state.loading) {
+	if(loading) {
 		messageArea = <h4 style={{height:40, margin:"auto",textAlign:"center"}}>Loading ...</h4>
 	}
-	if(action.state.error) {
-		messageArea = <h4 style={{height:40, margin:"auto",textAlign:"center"}}>{action.state.error}</h4>
+	if(error) {
+		messageArea = <h4 style={{height:40, margin:"auto",textAlign:"center"}}>{error}</h4>
 	}
-	if(action.state.isLogged) {
+	if(isLogged) {
 		return (
 			<>
-				<Navbar isLogged={action.state.isLogged} logout={action.logout} user={action.state.user}/>
+				<Navbar />
 					{messageArea}
 				<Routes>
-					<Route path="/" element={<ShoppingList list={action.state.list} remove={action.remove} edit={action.edit} getList={action.getList} token={action.state.token}/>}/>
-					<Route path="/form" element={<ShoppingForm add={action.add}/>}/>
+					<Route path="/" element={<ShoppingList />}/>
+					<Route path="/form" element={<ShoppingForm />}/>
 					<Route path="*" element={<Navigate to="/"/>}/>
 				</Routes>
 			</>
@@ -33,10 +42,10 @@ function App() {
 	} else {
 		return(
 			<>
-				<Navbar isLogged={action.state.isLogged} logout={action.logout} user={action.state.user}/>
+				<Navbar />
 					{messageArea}
 				<Routes>
-					<Route path="/" element={<LoginPage register={action.register} login={action.login} setError={action.setError}/>}/>
+					<Route path="/" element={<LoginPage />}/>
 					<Route path="*" element={<Navigate to="/"/>}/>
 				</Routes>
 			</>
