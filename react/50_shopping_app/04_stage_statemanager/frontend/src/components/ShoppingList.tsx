@@ -3,14 +3,9 @@ import Row from './Row';
 import RemoveRow from './RemoveRow';
 import EditRow from './EditRow';
 import React,{useState} from 'react';
+import useAction from '../hooks/useAction';
+import useAppState from '../hooks/useAppState';
 
-interface Props {
-	list:ShoppingItem[];
-	remove(id:string):void;
-	edit(item:ShoppingItem):void;
-	getList(token:string,search?:string):void;
-	token:string;
-}
 
 interface State {
 	removeIndex:number;
@@ -21,12 +16,15 @@ interface SearchState {
 	search:string;
 }
 
-const ShoppingList = (props:Props) => {
+const ShoppingList = () => {
 	
 	const [state,setState] = useState<State>({
 		removeIndex:-1,
 		editIndex:-1
 	})
+	
+	const {list} = useAppState();
+	const {remove,edit,getList} = useAction();
 	
 	const [searchState,setSearchState] = useState<SearchState>({
 		search:""
@@ -54,7 +52,7 @@ const ShoppingList = (props:Props) => {
 	}
 	
 	const searchByType = () => {
-		props.getList(props.token,searchState.search);	
+		getList(props.token,searchState.search);	
 		setSearchState({
 			search:""
 		})
@@ -67,16 +65,16 @@ const ShoppingList = (props:Props) => {
 	}
 	
 	const removeItem = (id:string) => {
-		props.remove(id);
+		remove(id);
 		changeMode(0,"cancel");
 	}
 	
 	const editItem = (item:ShoppingItem) => {
-		props.edit(item);
+		edit(item);
 		changeMode(0,"cancel");
 	}
 	
-	const shoppingItem = props.list.map((item,index) => {
+	const shoppingItem = list.map((item,index) => {
 		if(index === state.removeIndex) {
 			return (
 				<RemoveRow key={item._id} item={item} removeItem={removeItem} changeMode={changeMode}/>
