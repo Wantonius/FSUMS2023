@@ -26,7 +26,7 @@ const getInitialState = ():AppState => {
 	}
 }
 
-const initialState = getInitialState;
+const initialState = getInitialState();
 
 const saveToStorage = (state:AppState) => {
 	sessionStorage.setItem("state",JSON.stringify(state));
