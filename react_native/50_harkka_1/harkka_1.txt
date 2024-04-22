@@ -1,0 +1,14 @@
+Numeronarvauspeli
+
+Arvataan numeroa 1-100 väliltä. Peli laskee arvausten määrän. 
+Arvauksen jälkeen peli ilmoittaa, että oliko arvaus liian suuri 
+vai liian pieni. Jos arvaa 75 ja arvaus on liian suuri peli estää
+suuremman luvun arvaamisen ja sama liian pienelle. Peli estää 
+myös 1-100 ulkopuolelta arvaamisen sekä kirjaimet (isNaN toimii).
+Tee tarkistuksen onChangeText funktiossa. Peli juhlii (päätä miten),
+kun arvaat oikein. Lisää myös Reset nappula, jolla voi aloittaa 
+pelin alusta.
+
+
+Tekstin syöttö
+https://reactnative.dev/docs/textinput
