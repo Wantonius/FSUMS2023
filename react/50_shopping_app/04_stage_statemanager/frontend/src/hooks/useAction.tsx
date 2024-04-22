@@ -3,7 +3,6 @@ import useAppState from './useAppState';
 import ActionContext from '../context/ActionContext';
 import ShoppingItem from '../models/ShoppingItem';
 import User from '../models/User';
-import {AppState} from '../types/states';
 import * as actionConstants from '../types/actionConstants';
 
 interface UrlRequest {
@@ -255,7 +254,7 @@ const useAction = () => {
 	const login = (user:User) => {
 		dispatch({
 			type:actionConstants.SET_USER,
-			user:user.username
+			payload:user.username
 		})
 		setUrlRequest({
 			request:new Request("/login",{
