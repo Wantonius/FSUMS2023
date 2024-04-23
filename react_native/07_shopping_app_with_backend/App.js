@@ -1,20 +1,48 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import useAction from './hooks/useAction';
+import LoginPage from './components/LoginPage';
+import ShoppingForm from './components/ShoppingForm';
+import ShoppingList from './components/ShoppingList';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+	
+	const {state,register,login,logout,addItem,removeItem} = useAction();
+	
+	let title = "Shopping App";
+	if(state.loading) {
+		title = "Loading ..."
+	}
+	if(state.error) {
+		title = state.error
+	}
+	
+	return (
+		<NavigationContainer>
+			<Stack.Navigator screenOptions={{
+				title:title,
+				headerStyle:{
+					backgroundColor:"#00CCCC"
+				}
+			}}>
+			{state.isLogged ? (
+				<>
+					<Stack.Screen name="ShoppingList">
+					{props => <ShoppingList {...props} list={state.list} removeItem={removeItem} logout={logout}/>}
+					</Stack.Screen>
+					<Stack.Screen name="ShoppingForm">
+					{props => <ShoppingForm {...props} addToList={addItem}/>}
+					</Stack.Screen>
+				</>
+			):(
+				<>
+					<Stack.Screen name="Login">
+					{props => <LoginPage {...props} register={register} login={login}/>}
+					</Stack.Screen>
+				</>
+			)}
+			</Stack.Navigator>
+		</NavigationContainer>
+	);
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
