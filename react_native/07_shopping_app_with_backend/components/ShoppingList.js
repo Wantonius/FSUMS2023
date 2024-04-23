@@ -20,13 +20,14 @@ const ShoppingList = (props) => {
 										<Text style={styles.textStyle}>Count:{item.count}</Text>
 										<Text style={styles.textStyle}>Price:{item.price}</Text>
 										<Pressable style={styles.buttonStyle}
-											onPress={() => props.removeItem(item.id)}>
+											onPress={() => props.removeItem(item._id)}>
 											<Text style={styles.textStyle}>Remove</Text>
 										</Pressable>
 									</View>
 								)
 							}
 						}
+						keyExtractor={(item) => item._id}
 				/>
 			</View>
 		</View>

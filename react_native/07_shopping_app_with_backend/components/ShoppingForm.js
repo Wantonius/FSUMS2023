@@ -12,7 +12,7 @@ const ShoppingForm = (props) => {
 	const addToList = () => {
 		let item = {
 			...state,
-			id:0
+			_id:""
 		}
 		props.addToList(item);
 		setState({
