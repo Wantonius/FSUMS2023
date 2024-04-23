@@ -33,7 +33,7 @@ const LoginPage = (props) => {
 								...state,
 								username:text
 							}
-						}
+						})
 					}} placeholder="Username" value={state.username}/>
 			</View>
 			<View style={styles.row}>
@@ -45,7 +45,7 @@ const LoginPage = (props) => {
 								...state,
 								password:text
 							}
-						}
+						})
 					}} placeholder="Password" value={state.password} secureTextEntry={true}/>
 			</View>
 			<View style={[styles.row,styles.buttonRow]}>

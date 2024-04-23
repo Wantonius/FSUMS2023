@@ -5,6 +5,8 @@ import LoginPage from './components/LoginPage';
 import ShoppingForm from './components/ShoppingForm';
 import ShoppingList from './components/ShoppingList';
 
+const Stack = createNativeStackNavigator();
+
 export default function App() {
 	
 	const {state,register,login,logout,addItem,removeItem} = useAction();
