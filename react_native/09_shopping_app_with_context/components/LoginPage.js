@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {View,Pressable,Text,TextInput,StyleSheet} from 'react-native';
-
+import useAction from '../hooks/useAction';
 const LoginPage = (props) => {
 	
 	const [state,setState] = useState({
@@ -8,18 +8,20 @@ const LoginPage = (props) => {
 		password:""
 	})
 	
-	const register = () => {
+	const {register,login} = useAction()
+	
+	const onRegister = () => {
 		let user = {
 			...state
 		}
-		props.register(user);
+		register(user);
 	}
 	
-	const login = () => {
+	const onLogin = () => {
 		let user = {
 			...state
 		}
-		props.login(user);
+		login(user);
 	}
 	
 	return(
@@ -50,11 +52,11 @@ const LoginPage = (props) => {
 			</View>
 			<View style={[styles.row,styles.buttonRow]}>
 				<Pressable style={styles.registerButton}
-					onPress={register}>
+					onPress={onRegister}>
 					<Text style={styles.text}>Register</Text>
 				</Pressable>
 				<Pressable style={[styles.registerButton,styles.loginButton]}
-					onPress={login}>
+					onPress={onLogin}>
 					<Text style={styles.text}>Login</Text>
 				</Pressable>
 			</View>

@@ -1,0 +1,46 @@
+Messaging App React Nativella
+
+Tehdään messaging app, jossa on neljä pagea. Ensin on Loginpage, jossa logataan sisään. Sitten on sivu omien viestien lukemiselle sekä sivut viestien lähettämiseen muille. Listataan potentiaaliset viestin kohteet listaan ja kuten shopping appin remove button jokaiselle riville laitetaan nappi, jolla siirrytään lähetyssivulle. Tunnistamiseen käytetään id:tä kuten Shopping appin removeFromList-funktiossa. Jokainen rekisteröitynyt käyttäjä saa appsilta  access tokenin lisäksi messagetokenin, jolla kyseiselle käyttäjälle lähetetyt viestit tunnistetaan. Eli kun viesti lähetetään kohteelle viestikentän (message) lisäksi bodyyn laitetaan kohteen "messagetoken". Backend palauttaa automaattisesti käyttäjälle tarkoitetut viestit pyydettäessä.
+
+
+
+Ajossa olevan backendin koodi löytyy gitistä
+
+URL:https://puce-adorable-angler.cyclic.app
+
+API (eli siis koko osoite on esim. 
+https://puce-adorable-angler.cyclic.app/register)
+
+/register POST rekisteröinti tavalliseen tapaan
+/login POST login tavalliseen tapaan, mukana token accessiin 
+/logout POST 
+
+/api/messages GET vaatii loginin ja tokenin headeriin. Palauttaa itselle tulleet messaget muodossa 
+[
+  {
+    "from": "test2",
+    "messagetoken": "9Ei4ghA9E7Ce6j03",
+    "message": "moi",
+	"id":100
+  },
+  {
+    "from": "test",
+    "messagetoken": "9Ei4ghA9E7Ce6j03",
+    "message": "moi",
+	"id":101
+  }
+]
+
+/api/messages POST vaatii tokenin headeriin ja bodyn muodossa 
+{
+	"message": <haluttu viesti>,
+	"messagetoken: Kohteen messagetoken.
+}
+
+/api/users GET vaatii tokenin headeriin. Palauttaa kaikkien usereiden perustiedot arrayssa viestien lähettämistä varten. Rakenne
+[
+  {
+    "username": "test3",
+    "messagetoken": "EHEFJ8JJG80I1730"
+  }
+]

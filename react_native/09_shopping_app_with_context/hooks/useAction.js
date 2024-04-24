@@ -1,7 +1,7 @@
 import {useState,useEffect,useContext} from 'react';
 import ActionContext from '../context/ActionContext';
 import useAppState from './useAppState';
-import * as actionConstants from '../types/actionConstants':
+import * as actionConstants from '../types/actionConstants';
 
 const useAction = () => {
 	
@@ -28,7 +28,7 @@ const useAction = () => {
 				dispatch({
 					type:actionConstants.CHANGE_MODE,
 					mode:urlRequest.request.mode,
-					editable.urlRequest.request.editable
+					editable:urlRequest.request.editable
 				})
 				return;
 			}

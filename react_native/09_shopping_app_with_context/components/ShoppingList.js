@@ -1,21 +1,27 @@
 import {FlatList,View,Pressable,Text,StyleSheet} from 'react-native';
+import useAction from '../hooks/useAction';
+import useAppState from '../hooks/useAppState';
+
 
 const ShoppingList = (props) => {
+
+	const {list} = useAppState();
+	const {remove,changeMode,logout} = useAction()
 	
 	return(
 		<View style={styles.container}>
 			<View style={styles.buttonBox}>
 				<Pressable style={styles.navigateButton}
-					onPress={() => props.navigation.navigate("ShoppingForm")}>
+					onPress={() => props.navigation.navigate("Add Item")}>
 					<Text style={styles.textStyle}>Add new item</Text>
 				</Pressable>
 				<Pressable style={[styles.navigateButton,styles.logoutButton]}
-					onPress={props.logout}>
+					onPress={logout}>
 					<Text style={styles.textStyle}>Logout</Text>
 				</Pressable>
 			</View>
 			<View style={styles.listBox}>
-				<FlatList data={props.list}
+				<FlatList data={list}
 						renderItem={
 							({item}) => {
 								return (
@@ -24,8 +30,16 @@ const ShoppingList = (props) => {
 										<Text style={styles.textStyle}>Count:{item.count}</Text>
 										<Text style={styles.textStyle}>Price:{item.price}</Text>
 										<Pressable style={styles.buttonStyle}
-											onPress={() => props.removeItem(item._id)}>
+											onPress={() => remove(item._id)}>
 											<Text style={styles.textStyle}>Remove</Text>
+										</Pressable>
+										<Pressable style={styles.buttonStyle}
+											onPress={() => { 
+												changeMode("Edit",item)
+												props.navigation.navigate("Add Item")
+											}}
+											>
+											<Text style={styles.textStyle}>Edit</Text>
 										</Pressable>
 									</View>
 								)
