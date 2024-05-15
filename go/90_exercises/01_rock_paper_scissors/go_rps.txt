@@ -1,0 +1,49 @@
+Create a rock-paper-scissors game where player plays against a computer opponent. Opponent is a goroutine that
+randomly decides which play to make. First to three points wins. Synchronize with channels
+
+
+Random numbers:
+
+import "math/rand"
+
+Then seed
+
+rand.Seed(time.Now().UnixNano())
+
+Then random int 0-2
+r = rand.Intn(2)
+
+package main
+
+
+import (
+    "fmt"
+    "time"
+	"math/rand"
+)
+
+func opponent_worker(messages chan string, done chan bool) {
+
+	//Randomize the choice between rock, paper, scissors
+	//done channel will send "true" when it is time to stop the loop and the game ends
+	//send opponents choice ("rock", "paper", "scissors") using the messages channel
+}
+
+func main() {
+
+	messages := make(chan string)
+	done := make(chan bool)
+	var opp_play string	
+	var choice,player,opponent int
+	var end bool
+	
+	go opponent_worker(messages,done)
+	
+	//Loop until end is true
+	//Use fmt.Scanf to record the players choice between rock, paper scissors
+	//Read messages channel for opponents choice
+	//Using switch for players choice award player or opponent one point within the rules of the game
+	//if either player or opponent gets to three points change end to true and transmit that using done channel. This should kill the opponent_worker.
+	//Congratulate winner and end program.
+}
+
