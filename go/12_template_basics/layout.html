@@ -1,0 +1,19 @@
+<h1>{{.ShoppingList}}</h1>
+<table>
+	<thead>
+		<tr>
+			<th>Type</th>
+			<th>Count</th>	
+			<th>Price</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{range .Items}}
+		<tr>
+			<td>{{.Type}}</td>
+			<td>{{.Count}}</td>
+			<td>{{.Price}}</td>
+		</tr>
+		{{end}}
+	</tbody>
+</table>
