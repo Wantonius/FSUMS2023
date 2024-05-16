@@ -122,6 +122,74 @@ func Register(w http.ResponseWriter, r* http.Request) {
 	}
 }
 
+func Login(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+		case http.MethodPost:
+			var user User
+			json.NewDecoder(r.Body).Decode(&user)
+			for _,u := range RegisteredUsers {
+				if u.Username == user.Username {
+					if u.Password == user.Password {
+						now := time.Now().Unix() + time_to_live
+						t := CreateToken()
+						LoggedSessions = append(LoggedSessions,Session{TTL:now,Token:t})
+						data := MyToken{Token:t}
+						json.NewEncoder(w).Encode(data)
+						return;
+					}
+				}
+			}
+			w.WriteHeader(http.StatusUnauthorized)
+			message := BackendMessage{Message:"Unauthorized"}
+			json.NewEncoder(w).Encode(message)
+		default:
+			w.WriteHeader(http.StatusMethodNotAllowed)
+			message := BackendMessage{Message:"Unknown Command"}
+			json.NewEncoder(w).Encode(message)
+	}
+}
+
+func Chain(f http.HandlerFunc, middlewares ... Middleware) http.HandlerFunc {
+	for _,m := range middlewares {
+		f = m(f)
+	}
+	return f
+}
+
+func isUserLogged() Middleware {
+	return func(f http.HandlerFunc) http.HandlerFunc {
+		return func(w http.ResponseWriter, r* http.Request) {
+			token := r.Header.Get("token")
+			if token == "" {
+				w.WriteHeader(http.StatusForbidden)
+				message := BackendMessage{Message:"Forbidden"}
+				json.NewEncoder(w).Encode(message)
+				return
+			}
+			for i,session := range LoggedSessions {
+				if token == session.Token {
+					now := time.Now().Unix()
+					if now > session.TTL {
+						LoggedSessions = append(LoggedSessions[:i],LoggedSessions[i+1:]...)
+						w.WriteHeader(http.StatusForbidden)
+						message := BackendMessage{Message:"Forbidden"}
+						json.NewEncoder(w).Encode(message)
+						return
+					} else {
+						session.TTL = now + time_to_live
+						f(w,r)
+						return
+					}
+				}
+			}
+			w.WriteHeader(http.StatusForbidden)
+			message := BackendMessage{Message:"Forbidden"}
+			json.NewEncoder(w).Encode(message)
+			return
+		}
+	}
+}
+
 func main() {
 
 	fs := http.FileServer(http.Dir("public/"))
