@@ -1,0 +1,35 @@
+{{if .Success}}
+	<h1>{{.ShoppingList}}</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>Type</th>
+				<th>Count</th>
+				<th>Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{range .Items}}
+			<tr>
+				<td>{{.Type}}</td>
+				<td>{{.Count}}</td>
+				<td>{{.Price}}</td>
+			</tr>
+			{{end}}
+		</tbody>
+	</table>
+{{else}}
+	<h1>Enter Shopping Item</h1>
+	<form method="POST">
+		<label for="type">Type</label>
+		<input type="text" name="type" id="type"/>
+		<br/>
+		<label for="count">Count</label>
+		<input type="number" name="count" id="count"/>
+		<br/>
+		<label for="price">Price</label>
+		<input type="number" name="price" id="price"/>
+		<br/>		
+		<input type="submit" value="Add Item"/>
+	</form>
+{{end}}
