@@ -1,0 +1,39 @@
+<!DOCtype html>
+<html>
+	<head>
+		<title>Contact List</title>
+	</head>
+	<body>
+		<ul style="list-style-type:none;margin:auto;">
+			<li><a href="/">Contact List</a></li>
+			<li><a href="/form">Add new contact</a></li>
+		</ul>
+		<hr/>
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Address</th>
+					<th>City</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{range .Contacts}}
+					<tr>
+						<td><a href="/contact/{{.Id}}">{{.Id}}</a></td>
+						<td>{{.Firstname}}</td>
+						<td>{{.Lastname}}</td>
+						<td>{{.Email}}</td>
+						<td>{{.Phone}}</td>
+						<td>{{.Address}}</td>
+						<td>{{.City}}</td>
+					</tr>
+				{{end}}
+			</tbody>
+		</table>
+	</body>
+</html>
