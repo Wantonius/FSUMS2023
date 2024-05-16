@@ -10,7 +10,7 @@ import (
 )
 
 type Item struct {
-	_Id		string 	`json:"_id"`
+	Id		string 	`json:"_id"`
 	Type	string	`json:"type"`
 	Count	string	`json:"count"`
 	Price	string	`json:"price"`
@@ -49,7 +49,7 @@ func HandleGetAndPost(w http.ResponseWriter, r *http.Request) {
 		case http.MethodPost:
 			var item Item	
 			json.NewDecoder(r.Body).Decode(&item)
-			item._Id = strconv.FormatInt(int64(id),10)
+			item.Id = strconv.FormatInt(int64(id),10)
 			id++
 			ShoppingItems = append(ShoppingItems,item)
 			message := BackendMessage{Message:"Success"}
@@ -63,11 +63,11 @@ func HandleGetAndPost(w http.ResponseWriter, r *http.Request) {
 
 func HandleDeleteAndPut(w http.ResponseWriter, r *http.Request) {
 	temp_string := r.URL.String()
-	temp_id := temp_string[len(temp_string)-3:]
+	tempId := temp_string[len(temp_string)-3:]
 	switch r.Method {
 		case http.MethodDelete:
 			for i,item := range ShoppingItems {
-				if item._Id == temp_id {
+				if item.Id == tempId {
 					ShoppingItems = append(ShoppingItems[:i],ShoppingItems[i+1:]...)
 				}
 			}
@@ -77,7 +77,8 @@ func HandleDeleteAndPut(w http.ResponseWriter, r *http.Request) {
 			var t_item Item
 			json.NewDecoder(r.Body).Decode(&t_item)
 			for i,item := range ShoppingItems {
-				if item._Id == temp_id {
+				if item.Id == tempId {
+					t_item.Id = tempId
 					ShoppingItems[i] = t_item
 				}
 			}
@@ -192,8 +193,18 @@ func isUserLogged() Middleware {
 
 func main() {
 
+	ShoppingItems = make([]Item,0)
+	RegisteredUsers = make([]User,0)
+	LoggedSessions = make([]Session,0)
+	id = 100
+
 	fs := http.FileServer(http.Dir("public/"))
 	http.Handle("/",fs)
+
+	http.HandleFunc("/api/shopping",Chain(HandleGetAndPost,isUserLogged()))
+	http.HandleFunc("/api/shopping/",Chain(HandleDeleteAndPut,isUserLogged()))
+	http.HandleFunc("/register",Register)
+	http.HandleFunc("/login",Login)
 
 	fmt.Println("Server running in port 3000")
 	http.ListenAndServe(":3000",nil)
